@@ -46,7 +46,7 @@ pred investigando[d:Detetive,v:Vermelho] {
 fact {
 	#(Delegacia) = 1
 	
-	--Cada funcionario deve estar na delegecia (disponível) ou trabalhando em um caso, nunca associado aos dois ao mesmo tempo!
+	--Cada funcionario deve estar na delegacia (disponível) ou trabalhando em um caso, nunca associado aos dois ao mesmo tempo!
 	all p:Policial | (one p.~AtendidoPor and no p.~Folga) or (no p.~AtendidoPor and one p.~Folga)
 	all d:Detetive | (one d.~Investigacao and no d.~Folga) or (no d.~Investigacao and one d.~Folga)
 	
@@ -61,6 +61,9 @@ fact {
 	
 	-- O Xerife só atua quando for o último policial disponível
 	all v:Veterano,x:Xerife,d:Delegacia | prontidao[v,d] => prontidao[x,d]
+
+	-- Ter no mínimo um policial na delegacia
+	all d:Delegacia | #(d.Folga) > 0
 
 	--Quantidade de cada tipo de funcionario
 	#Xerife = 1
